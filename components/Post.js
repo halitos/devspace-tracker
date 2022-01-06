@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import CategoryLabel from "./CategoryLabel";
 
 export default function Post({ post }) {
   const { title, cover_image, date, category, excerpt, author, author_image } =
@@ -15,7 +16,7 @@ export default function Post({ post }) {
       ></Image>
       <div className="flex justify-between items-center">
         <span className="font-light text-gray-600">{date}</span>
-        <div>{category}</div>
+        <CategoryLabel>{category}</CategoryLabel>
       </div>
       <div className="mt-2">
         <Link href={`/blog/${post?.slug}`}>
