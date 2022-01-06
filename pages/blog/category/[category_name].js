@@ -1,50 +1,51 @@
 import fs from "fs";
 import matter from "gray-matter";
+import Link from "next/link";
 import path from "path";
 import Layout from "../../../components/Layout";
-import Pagination from "../../../components/Pagination";
 import Post from "../../../components/Post";
 import { sortByDate } from "../../../utils";
 
-export default function BlogPage({ posts, numPages, currentPage }) {
+export default function CategoryPage({ posts, categoryName }) {
   return (
     <Layout>
       <h1 className="text-3xl text-center md:text-5xl md:text-left border-b-4 p-5 font-bold">
-        All Posts
+        Posts in {categoryName}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}
       </div>
-      <Pagination currentPage={currentPage} numPages={numPages} />
     </Layout>
   );
 }
 
-const POSTS_PER_PAGE = 3;
-
 export async function getStaticPaths() {
   const files = fs.readdirSync(path.join("posts"));
 
-  const numPages = Math.ceil(files.length / POSTS_PER_PAGE);
+  const categories = files.map((filename) => {
+    const markdownWithMeta = fs.readFileSync(
+      path.join("posts", filename),
+      "utf-8"
+    );
 
-  let paths = [];
+    const { data: frontmatter } = matter(markdownWithMeta);
 
-  for (let i = 1; i <= numPages; i++) {
-    paths.push({
-      params: { page_index: i.toString() },
-    });
-  }
+    return frontmatter.category.toLowerCase();
+  });
+
+  const paths = categories.map((category) => ({
+    params: { category_name: category },
+  }));
+
   return {
     paths,
     fallback: false,
   };
 }
 
-export async function getStaticProps({ params }) {
-  const page = parseInt((params && params.page_index) || 1);
-
+export async function getStaticProps({ params: { category_name } }) {
   const files = fs.readdirSync(path.join("posts"));
 
   const posts = files.map((postName) => {
@@ -62,17 +63,15 @@ export async function getStaticProps({ params }) {
     };
   });
 
-  const numPages = Math.ceil(files.length / POSTS_PER_PAGE);
-  const pageIndex = page - 1;
-  const orderedPosts = posts
-    .sort(sortByDate)
-    .slice(pageIndex * POSTS_PER_PAGE, (pageIndex + 1) * POSTS_PER_PAGE);
+  // Filter posts by category
+  const categoryPosts = posts.filter(
+    (post) => post?.frontmatter?.category.toLowerCase() === category_name
+  );
 
   return {
     props: {
-      posts: orderedPosts,
-      numPages,
-      currentPage: page,
+      posts: categoryPosts.sort(sortByDate),
+      categoryName: category_name,
     },
   };
 }

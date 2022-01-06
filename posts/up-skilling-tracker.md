@@ -27,4 +27,19 @@ Easy to deploy
 
 Having API Routes and being able set HTTP only cookie, is another big benefit of using Next.js , that can’t be done with React only. Where to store Jason Web Tokens (JWT) always a kind of problem with front end development.
 
-For more information check this [LINK](https://nextjs.org/)
+#### `jsconfig.json` Object
+
+```
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/config/*": ["config/*"],
+      "@/utils/*": ["utils/*"],
+      "@/lib/*": ["lib/*"]
+    }
+  }
+}
+```
+
+For more information check [DOCS](https://nextjs.org/)

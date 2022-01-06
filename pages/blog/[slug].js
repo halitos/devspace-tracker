@@ -22,7 +22,7 @@ export default function SinglePostPage({ content, slug, frontmatter }) {
         </div>
         <img src={cover_image} alt="cover" className="w-full rounded" />
         <div className="flex justify-between items-center bg-gray-100 my-8">
-          <div className="flex items-center">
+          <div className="flex items-center p-2">
             <img
               src={author_image}
               alt="author"
