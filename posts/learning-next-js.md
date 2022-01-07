@@ -1,6 +1,6 @@
 ---
 title: "Learning Next Js"
-date: "May 27, 2020"
+date: "Jan 06, 2022"
 excerpt: "Next.js gives you the best developer experience with all the features you need for production"
 cover_image: "/images/posts/nextjs.png"
 category: "JavaScript"
