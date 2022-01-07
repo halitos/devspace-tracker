@@ -1,8 +1,9 @@
+/* eslint-disable import/no-anonymous-default-export */
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export default function (req, res) {
+export default (req, res) => {
   let posts;
 
   if (process.env.NODE_ENV === "production") {
@@ -36,4 +37,4 @@ export default function (req, res) {
   );
 
   res.status(200).json(JSON.stringify({ results }));
-}
+};

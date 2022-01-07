@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "./header";
+import Header from "./Header";
 import Search from "./Search";
 export default function Layout({ title, keywords, description, children }) {
   return (
